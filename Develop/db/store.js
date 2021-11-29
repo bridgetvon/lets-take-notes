@@ -1,10 +1,11 @@
 const util = require('util');
 const fs = require('fs');
 //automatically create an id
-// const uuidv1 = require('uuid');
+const {v4:uuidv4} = require('uuid');
 
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
+
 
 let notes = [{id:1, body: 'some text'}, {id:2, body:'some mre text'}];
 
@@ -20,27 +21,32 @@ class Store {
         return writeFileAsync('db/db.json', JSON.stringify(note));
     };
 
-    getNotes () {
-        //retrieve the notes 
-        //call the read function in this function 
-        return this.read().then(notes=> {
-            let newNotes = JSON.parse(notes);
-            console.log(newNotes);
-            return newNotes;
-        });
-    };
+  getNotes() {
+    return this.read().then((notes) => {
+      let parsedNotes;
 
-    addNotes (newNote) {
+      // If notes isn't an array or can't be turned into one, send back a new empty array
+      try {
+        parsedNotes = [].concat(JSON.parse(notes));
+      } catch (err) {
+        parsedNotes = [];
+      }
+
+      return parsedNotes;
+    });
+  }
+
+    addNotes (note) {
+        const {title, text} = note;
+        const newNote = {title, text, id: uuidv4()};
         //within this function call the write function 
       //create a new note object 
-        return this.getNotes().then(notes => {
-        const newNote = [...notes, newNote];
-        console.log(newNote);
-        return this.write(newNote);
-
-            // .then((updateNote) => this.write(updateNote))
-            // .then(() => newNote);
-        })
+        return this.getNotes().then((notes) =>
+        {return[...notes, newNote]}      
+        ).then((updatedNotes) => 
+        {return this.write(updatedNotes)}
+        ).then(() => 
+        {return newNote})
     };
 
     // deleteNote (id) {

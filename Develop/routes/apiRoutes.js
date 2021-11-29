@@ -6,10 +6,16 @@ const storeNote = require('../db/store');
 let notes = [{id:1, body: 'some text'}, {id:2, body:'some mre text'}];
 
 //get post and delete routes 
+router.get("/", (req, res)  => {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+
 
 router.get('/notes', (req, res) => {
     //call on store notes bc the function is in that file 
-    storeNote.getNotes()
+    storeNote
+    .getNotes()
     .then((notes) => {
          return res.json(notes);
     })
@@ -18,18 +24,13 @@ router.get('/notes', (req, res) => {
     })
 });
 
-router.post('api/notes', (req, res) => {
-    // req.body = notes.length.toString();
-    // if (!ValidateNote(req.body)) {
-    //     res.status(400).send('Your note is not properly formatted!');
-    // } else {
-    //     const note = addNotes(req.body, notes);
-    //     res.json(note);
-    // }
-    // fs.readFile(__dirname + '../db/db.json', 'utf-8')
+router.post('/notes', (req, res) => {
+    storeNote
+    .addNotes(req.body)
+    .then((notes) => {
+         res.json(notes);
+    })  
     console.log(req.body);
-    res.json(req.body);
-
 });
 
 router.delete('/notes/:id', (req, res) => {
