@@ -1,4 +1,5 @@
-## note-taker
+## lets-take-notes
+
 ![GitHub license](https://img.shields.io/badge/license-N/A-blue.svg)
 
 * [License](#license)
