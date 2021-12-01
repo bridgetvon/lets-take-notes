@@ -22,7 +22,9 @@ https://sleepy-brook-82116.herokuapp.com/
 *[Contributors](#contributors)
 
 ## Visual
-true
+<img src="./public/assets/images/homepage.png">
+<img src="./public/assets/images/notetakingpage.png">
+
 ## Usage 
 AS a small business owner 
 I WANT to be able to write and save notes 
