@@ -34,10 +34,12 @@ router.post('/notes', (req, res) => {
 });
 
 router.delete('/notes/:id', (req, res) => {
-    console.log(req.params.id)
-    const deleteNote = note.filter(item => item.id != req.params.id);
-    note = deleteNote;
-    return res.redirect('/');
+    storeNote
+    .deleteNote(req.params.id)
+    .then(() => {
+        res.json({ok: true})
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 

@@ -48,10 +48,12 @@ class Store {
         ).then(() => 
         {return newNote})
     };
-
-    // deleteNote (id) {
-        
-    // }
+    //getnotes() to delete 
+   deleteNote (id) {
+        return this.getNotes()
+        .then(notes => notes.filter(note => note.id !== id))
+        .then(filtered => this.write(filtered));
+     }
 
 
 }
